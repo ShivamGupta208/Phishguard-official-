@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" class="dark"> <head>
+<html lang="en" class="dark">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhishGuard Labs | AI Scam Detector</title>
+    <title>PhishGuard Labs | AI Scam Defense</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     
     <script>
-        // Tailwind configuration for manual dark mode
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        brand: '#3b82f6',
+                        cyber: {
+                            blue: '#3b82f6',   /* Electric Blue */
+                            green: '#10b981',  /* Cyber Green */
+                            dark: '#0a1128',   /* Branded Dark Navy */
+                            surface: '#111827' /* Slightly lighter surface */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space+Grotesk', 'sans-serif'],
                     }
                 }
             }
@@ -21,179 +33,176 @@
     </script>
     
     <style>
-        /* Smooth transition for theme switching */
-        .transition-theme { transition: background-color 0.5s ease, color 0.5s ease; }
-        
-        /* Pulse animation for the scan button */
-        @keyframes pulse-blue {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        .transition-all-500 { transition: all 0.5s ease; }
+        @keyframes scan-line {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
         }
-        .scanning-pulse { animation: pulse-blue 1.5s infinite; }
-        
-        /* QR Scanner Container Styling */
-        #qr-reader { border: none !important; }
-        #qr-reader img { display: none !important; }
+        .qr-scan-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #10b981, transparent);
+            animation: scan-line 2s linear infinite;
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+        }
+        .btn-gradient:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
-<body class="transition-theme bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen font-sans">
+<body class="transition-all-500 bg-slate-50 dark:bg-cyber-dark text-slate-900 dark:text-slate-100 min-h-screen font-sans">
 
-    <nav class="p-6 flex justify-between items-center max-w-5xl mx-auto">
-        <div class="flex items-center gap-3">
-            <img src="logo.jpg" alt="PhishGuard Logo" class="h-10 w-auto rounded-lg shadow-lg">
-            <h1 class="text-2xl font-black tracking-tighter text-blue-600 dark:text-blue-400">PHISHGUARD <span class="text-slate-400">LABS</span></h1>
+    <nav class="max-w-6xl mx-auto px-6 py-8 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 5L15 20V45C15 67.5 30 88 50 95C70 88 85 67.5 85 45V20L50 5Z" stroke="url(#paint0_linear)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M35 45L45 55L65 35" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                    <linearGradient id="paint0_linear" x1="15" y1="5" x2="85" y2="95" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#3b82f6"/>
+                        <stop offset="1" stop-color="#10b981"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div>
+                <h1 class="font-display text-2xl font-bold tracking-tight text-cyber-blue">PHISHGUARD <span class="text-cyber-green">LABS</span></h1>
+                <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-50 dark:text-slate-400">Cybersecurity Engine</p>
+            </div>
         </div>
         
-        <button id="themeToggle" class="p-2 rounded-full bg-slate-200 dark:bg-slate-800 hover:scale-110 transition-transform">
-            <span class="dark:hidden">🌙 Dark</span>
-            <span class="hidden dark:inline">☀️ Light</span>
+        <button id="themeToggle" class="bg-white dark:bg-cyber-surface border border-slate-200 dark:border-slate-800 p-2.5 rounded-2xl shadow-sm hover:scale-105 transition-transform">
+            <span class="dark:hidden">🌙</span>
+            <span class="hidden dark:inline">☀️</span>
         </button>
     </nav>
 
-    <main class="max-w-3xl mx-auto p-6 mt-10">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-extrabold mb-4 leading-tight">Identify Scams Before They Strike.</h2>
-            <p class="text-slate-500 dark:text-slate-400">Analyze suspicious links, SMS, or QR codes using Gemini 3 Intelligence.</p>
+    <main class="max-w-3xl mx-auto px-6 py-12">
+        <div class="text-center mb-16">
+            <h2 class="font-display text-5xl font-bold mb-6 bg-gradient-to-r from-cyber-blue to-cyber-green bg-clip-text text-transparent">Scan. Detect. Defend.</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-lg">Next-gen AI analysis for links, messages, and QR codes.</p>
         </div>
 
-        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 transition-all hover:shadow-blue-500/10">
-            
-            <div class="flex gap-4 mb-6">
-                <button onclick="switchTab('text')" id="tabText" class="px-4 py-2 rounded-lg font-bold bg-blue-600 text-white">Text / Link</button>
-                <button onclick="switchTab('qr')" id="tabQR" class="px-4 py-2 rounded-lg font-bold bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400">Scan QR Code</button>
-            </div>
+        <div class="bg-white dark:bg-cyber-surface p-1 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="p-8">
+                <div class="flex p-1 bg-slate-100 dark:bg-cyber-dark rounded-2xl mb-8">
+                    <button onclick="switchTab('text')" id="tabText" class="flex-1 py-3 rounded-xl font-bold text-sm transition-all bg-white dark:bg-cyber-surface shadow-sm text-cyber-blue">TEXT ANALYSIS</button>
+                    <button onclick="switchTab('qr')" id="tabQR" class="flex-1 py-3 rounded-xl font-bold text-sm transition-all text-slate-500">QR SCANNER</button>
+                </div>
 
-            <div id="textInputArea">
-                <textarea id="userInput" placeholder="Paste the suspicious link or message here..." 
-                    class="w-full h-40 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-blue-500 outline-none text-lg resize-none mb-6"></textarea>
-            </div>
+                <div id="textInputArea">
+                    <textarea id="userInput" placeholder="Paste suspicious URL or message here..." 
+                        class="w-full h-48 p-6 rounded-3xl bg-slate-50 dark:bg-cyber-dark border-none focus:ring-2 focus:ring-cyber-blue outline-none text-lg resize-none mb-6 placeholder:opacity-30 transition-all"></textarea>
+                </div>
 
-            <div id="qrInputArea" class="hidden text-center">
-                <div id="qr-reader" class="w-full rounded-2xl overflow-hidden mb-4"></div>
-                <p class="text-sm text-slate-400 mb-4">Point your camera at a QR code to extract its link.</p>
-            </div>
+                <div id="qrInputArea" class="hidden relative rounded-3xl overflow-hidden mb-6 bg-cyber-dark aspect-square md:aspect-video flex items-center justify-center border-2 border-dashed border-slate-800">
+                    <div id="qr-reader" class="w-full"></div>
+                    <div class="absolute inset-0 pointer-events-none border-2 border-cyber-green opacity-20"></div>
+                    <div class="absolute top-0 left-0 w-full qr-scan-line"></div>
+                </div>
 
-            <button id="scanBtn" onclick="analyzeContent()" 
-                class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-black text-xl rounded-2xl transition-all active:scale-95 flex justify-center items-center gap-2">
-                <span id="btnText">ANALYZE NOW</span>
-            </button>
-            
-            <div class="flex justify-center gap-6 mt-6 opacity-40 text-[10px] font-bold uppercase tracking-widest">
-                <span>🛡️ AES-256 Secure</span>
-                <span>🤖 Gemini 3 AI</span>
-                <span>☁️ Google Cloud</span>
+                <button id="scanBtn" onclick="analyzeContent()" 
+                    class="btn-gradient w-full py-5 text-white font-black text-xl rounded-3xl transition-all shadow-xl shadow-blue-500/20 active:scale-[0.98]">
+                    START SECURITY SCAN
+                </button>
+
+                <div class="mt-8 flex justify-center gap-8 items-center opacity-40 grayscale hover:grayscale-0 transition-all cursor-default">
+                    <span class="text-[9px] font-bold uppercase tracking-widest flex items-center gap-1"><span class="text-cyber-green">●</span> Google Gemini 3</span>
+                    <span class="text-[9px] font-bold uppercase tracking-widest flex items-center gap-1"><span class="text-cyber-blue">●</span> Real-time Logic</span>
+                    <span class="text-[9px] font-bold uppercase tracking-widest flex items-center gap-1"><span class="text-white">●</span> Secure Cloud</span>
+                </div>
             </div>
         </div>
 
-        <div id="resultArea" class="mt-8 hidden p-8 rounded-3xl border-2 transition-all">
-            <div id="riskBadge" class="inline-block px-4 py-1 rounded-full text-xs font-black uppercase mb-4 tracking-tighter"></div>
-            <h3 id="riskLevel" class="text-2xl font-black mb-2"></h3>
-            <div id="explanation" class="text-lg leading-relaxed space-y-2"></div>
+        <div id="resultArea" class="mt-10 hidden rounded-[2.5rem] p-10 border-2 transition-all duration-700">
+            <div id="riskBadge" class="inline-block px-5 py-1.5 rounded-full text-[10px] font-black uppercase mb-6 tracking-widest text-white"></div>
+            <h3 id="riskLevel" class="font-display text-3xl font-bold mb-4"></h3>
+            <div id="explanation" class="text-slate-600 dark:text-slate-300 leading-relaxed text-lg italic"></div>
         </div>
     </main>
 
     <script type="module">
         import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-        // CONFIGURATION - Update with your new API Key
-        const API_KEY = "PASTE_YOUR_NEW_API_KEY_HERE";
+        const API_KEY = "AIzaSyBgnrWLT9FXTfi_f0CwzS8MvuuM-HUdEZg";
         const genAI = new GoogleGenerativeAI(API_KEY);
 
-        // TAB SYSTEM
+        // Tab Management
         window.switchTab = (type) => {
-            const textTab = document.getElementById('textInputArea');
-            const qrTab = document.getElementById('qrInputArea');
-            const btnText = document.getElementById('tabText');
-            const btnQR = document.getElementById('tabQR');
-
-            if(type === 'text') {
-                textTab.classList.remove('hidden');
-                qrTab.classList.add('hidden');
-                btnText.className = "px-4 py-2 rounded-lg font-bold bg-blue-600 text-white";
-                btnQR.className = "px-4 py-2 rounded-lg font-bold bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400";
-                stopQR();
-            } else {
-                textTab.classList.add('hidden');
-                qrTab.classList.remove('hidden');
-                btnQR.className = "px-4 py-2 rounded-lg font-bold bg-blue-600 text-white";
-                btnText.className = "px-4 py-2 rounded-lg font-bold bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400";
-                startQR();
-            }
+            const isText = type === 'text';
+            document.getElementById('textInputArea').classList.toggle('hidden', !isText);
+            document.getElementById('qrInputArea').classList.toggle('hidden', isText);
+            
+            document.getElementById('tabText').className = isText ? "flex-1 py-3 rounded-xl font-bold text-sm bg-white dark:bg-cyber-surface shadow-sm text-cyber-blue" : "flex-1 py-3 rounded-xl font-bold text-sm text-slate-500";
+            document.getElementById('tabQR').className = !isText ? "flex-1 py-3 rounded-xl font-bold text-sm bg-white dark:bg-cyber-surface shadow-sm text-cyber-green" : "flex-1 py-3 rounded-xl font-bold text-sm text-slate-500";
+            
+            isText ? stopQR() : startQR();
         };
 
-        // QR SCANNER LOGIC
-        let html5QrcodeScanner;
+        let scanner;
         function startQR() {
-            html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
-            html5QrcodeScanner.render((decodedText) => {
-                document.getElementById('userInput').value = decodedText;
-                switchTab('text'); // Switch back to text to show the link
+            scanner = new Html5QrcodeScanner("qr-reader", { fps: 15, qrbox: 280 });
+            scanner.render((text) => {
+                document.getElementById('userInput').value = text;
+                switchTab('text');
+                scanner.clear();
             });
         }
-        function stopQR() { if(html5QrcodeScanner) html5QrcodeScanner.clear(); }
+        function stopQR() { if(scanner) scanner.clear(); }
 
-        // THEME TOGGLE
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-        });
+        // Theme
+        document.getElementById('themeToggle').addEventListener('click', () => document.documentElement.classList.toggle('dark'));
 
-        // ANALYSIS LOGIC
+        // Core AI Function
         window.analyzeContent = async () => {
             const input = document.getElementById('userInput').value;
             const btn = document.getElementById('scanBtn');
-            const resultArea = document.getElementById('resultArea');
-            
-            if(!input) return alert("Please paste something first!");
+            if(!input) return;
 
-            btn.classList.add('scanning-pulse');
-            btn.innerText = "THINKING...";
+            btn.innerText = "RUNNING HEURISTICS...";
+            btn.classList.add('animate-pulse');
 
             try {
-                // Using stable model to avoid 404 errors during demo
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-                
-                const prompt = `Analyze this message/link for phishing: "${input}". 
-                Respond ONLY in this exact format:
+                const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+                const prompt = `Act as a senior cybersecurity analyst. Analyze this for phishing/scams: "${input}". 
+                Output format:
                 RISK: [Low/Medium/High]
-                WHY: [List 3 bullet points explaining the red flags or safety]`;
+                WHY: [Max 3 short bullet points of specific red flags or safety signs]`;
 
                 const result = await model.generateContent(prompt);
-                const response = await result.response.text();
-                
-                displayResults(response);
-            } catch (error) {
-                alert("Error connecting to Gemini. Check your API Key!");
-                console.error(error);
+                displayResults(await result.response.text());
+            } catch (e) {
+                alert("API Error! Check your key.");
             } finally {
-                btn.classList.remove('scanning-pulse');
-                btn.innerText = "ANALYZE NOW";
+                btn.innerText = "START SECURITY SCAN";
+                btn.classList.remove('animate-pulse');
             }
         };
 
         function displayResults(text) {
             const risk = text.includes("High") ? "High" : text.includes("Medium") ? "Medium" : "Low";
-            const resultArea = document.getElementById('resultArea');
+            const area = document.getElementById('resultArea');
             const badge = document.getElementById('riskBadge');
             
-            resultArea.classList.remove('hidden');
+            area.classList.remove('hidden');
             
-            if(risk === "High") {
-                resultArea.className = "mt-8 p-8 rounded-3xl border-2 border-red-500 bg-red-50 dark:bg-red-900/10";
-                badge.className = "inline-block px-4 py-1 rounded-full text-xs font-black bg-red-500 text-white mb-4 uppercase";
-                badge.innerText = "⚠️ DANGER: HIGH RISK";
-            } else if(risk === "Medium") {
-                resultArea.className = "mt-8 p-8 rounded-3xl border-2 border-yellow-500 bg-yellow-50 dark:bg-yellow-900/10";
-                badge.className = "inline-block px-4 py-1 rounded-full text-xs font-black bg-yellow-500 text-white mb-4 uppercase";
-                badge.innerText = "🟠 WARNING: MEDIUM RISK";
-            } else {
-                resultArea.className = "mt-8 p-8 rounded-3xl border-2 border-green-500 bg-green-50 dark:bg-green-900/10";
-                badge.className = "inline-block px-4 py-1 rounded-full text-xs font-black bg-green-500 text-white mb-4 uppercase";
-                badge.innerText = "✅ SAFE: LOW RISK";
-            }
+            const styles = {
+                High: { border: 'border-red-500', bg: 'bg-red-500/5', badge: 'bg-red-500', text: 'HIGH RISK ALERT' },
+                Medium: { border: 'border-amber-500', bg: 'bg-amber-500/5', badge: 'bg-amber-500', text: 'CAUTION: MEDIUM RISK' },
+                Low: { border: 'border-cyber-green', bg: 'bg-cyber-green/5', badge: 'bg-cyber-green', text: 'SECURE: LOW RISK' }
+            };
 
-            document.getElementById('riskLevel').innerText = risk + " Risk Detected";
-            document.getElementById('explanation').innerText = text.split("WHY:")[1] || "No red flags detected.";
+            const config = styles[risk];
+            area.className = `mt-10 rounded-[2.5rem] p-10 border-2 transition-all duration-700 ${config.border} ${config.bg}`;
+            badge.className = `inline-block px-5 py-1.5 rounded-full text-[10px] font-black uppercase mb-6 tracking-widest text-white ${config.badge}`;
+            badge.innerText = config.text;
+            
+            document.getElementById('riskLevel').innerText = risk + " Risk Assessment";
+            document.getElementById('explanation').innerText = text.split("WHY:")[1]?.trim() || "Clear of immediate threats.";
+            
+            area.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
